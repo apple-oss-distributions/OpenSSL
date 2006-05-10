@@ -182,7 +182,7 @@ int MAIN(int argc, char **argv)
 bad:
 		BIO_printf(bio_err,"%s [options] <infile\n",prog);
 		BIO_printf(bio_err,"where options are\n");
-		BIO_printf(bio_err," -inform arg   input format - one of DER TXT PEM\n");
+		BIO_printf(bio_err," -inform arg   input format - one of DER PEM\n");
 		BIO_printf(bio_err," -in arg       input file\n");
 		BIO_printf(bio_err," -out arg      output file (output format is always DER\n");
 		BIO_printf(bio_err," -noout arg    don't produce any output\n");
@@ -278,6 +278,7 @@ bad:
 		tmplen=num;
 		for (i=0; i<sk_num(osk); i++)
 			{
+			int typ;
 			ASN1_TYPE *atmp;
 			j=atoi(sk_value(osk,i));
 			if (j == 0)
@@ -296,6 +297,15 @@ bad:
 				ERR_print_errors(bio_err);
 				goto end;
 				}
+			typ = ASN1_TYPE_get(at);
+			if ((typ == V_ASN1_OBJECT)
+				|| (typ == V_ASN1_NULL))
+				{
+				BIO_printf(bio_err, "Can't parse %s type\n",
+					typ == V_ASN1_NULL ? "NULL" : "OBJECT");
+				ERR_print_errors(bio_err);
+				goto end;
+				}
 			/* hmm... this is a little evil but it works */
 			tmpbuf=at->value.asn1_string->data;
 			tmplen=at->value.asn1_string->length;
@@ -304,7 +314,15 @@ bad:
 		num=tmplen;
 		}
 
-	if (length == 0) length=(unsigned int)num;
+	if (offset >= num)
+		{
+		BIO_printf(bio_err, "Error: offset too large\n");
+		goto end;
+		}
+
+	num -= offset;
+
+	if ((length == 0) || ((long)length > num)) length=(unsigned int)num;
 	if(derout) {
 		if(BIO_write(derout, str + offset, length) != (int)length) {
 			BIO_printf(bio_err, "Error writing output\n");

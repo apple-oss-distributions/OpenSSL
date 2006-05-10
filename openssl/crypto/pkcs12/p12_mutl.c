@@ -72,6 +72,12 @@ int PKCS12_gen_mac (PKCS12 *p12, const char *pass, int passlen,
 	unsigned char key[PKCS12_MAC_KEY_LENGTH], *salt;
 	int saltlen, iter;
 
+	if (!PKCS7_type_is_data(p12->authsafes))
+		{
+		PKCS12err(PKCS12_F_PKCS12_GEN_MAC,PKCS12_R_CONTENT_TYPE_NOT_DATA);
+		return 0;
+		}
+
 	salt = p12->mac->salt->data;
 	saltlen = p12->mac->salt->length;
 	if (!p12->mac->iter) iter = 1;
@@ -148,7 +154,10 @@ int PKCS12_setup_mac (PKCS12 *p12, int iter, unsigned char *salt, int saltlen,
 			PKCS12err(PKCS12_F_PKCS12_SETUP_MAC, ERR_R_MALLOC_FAILURE);
 			return 0;
 		}
-		ASN1_INTEGER_set(p12->mac->iter, iter);
+		if (!ASN1_INTEGER_set(p12->mac->iter, iter)) {
+			PKCS12err(PKCS12_F_PKCS12_SETUP_MAC, ERR_R_MALLOC_FAILURE);
+			return 0;
+		}
 	}
 	if (!saltlen) saltlen = PKCS12_SALT_LEN;
 	p12->mac->salt->length = saltlen;

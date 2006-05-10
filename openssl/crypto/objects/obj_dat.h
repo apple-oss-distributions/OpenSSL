@@ -62,12 +62,12 @@
  * [including the GNU Public Licence.]
  */
 
-#define NUM_NID 650
-#define NUM_SN 643
-#define NUM_LN 643
-#define NUM_OBJ 617
+#define NUM_NID 676
+#define NUM_SN 669
+#define NUM_LN 669
+#define NUM_OBJ 633
 
-static unsigned char lvalues[4455]={
+static unsigned char lvalues[4575]={
 0x00,                                        /* [  0] OBJ_undef */
 0x2A,0x86,0x48,0x86,0xF7,0x0D,               /* [  1] OBJ_rsadsi */
 0x2A,0x86,0x48,0x86,0xF7,0x0D,0x01,          /* [  7] OBJ_pkcs */
@@ -330,9 +330,9 @@ static unsigned char lvalues[4455]={
 0x2B,0x06,0x01,0x05,0x05,0x07,0x01,0x04,     /* [2092] OBJ_ac_auditEntity */
 0x2B,0x06,0x01,0x05,0x05,0x07,0x01,0x05,     /* [2100] OBJ_ac_targeting */
 0x2B,0x06,0x01,0x05,0x05,0x07,0x01,0x06,     /* [2108] OBJ_aaControls */
-0x2B,0x06,0x01,0x05,0x05,0x07,0x01,0x07,     /* [2116] OBJ_sbqp_ipAddrBlock */
-0x2B,0x06,0x01,0x05,0x05,0x07,0x01,0x08,     /* [2124] OBJ_sbqp_autonomousSysNum */
-0x2B,0x06,0x01,0x05,0x05,0x07,0x01,0x09,     /* [2132] OBJ_sbqp_routerIdentifier */
+0x2B,0x06,0x01,0x05,0x05,0x07,0x01,0x07,     /* [2116] OBJ_sbgp_ipAddrBlock */
+0x2B,0x06,0x01,0x05,0x05,0x07,0x01,0x08,     /* [2124] OBJ_sbgp_autonomousSysNum */
+0x2B,0x06,0x01,0x05,0x05,0x07,0x01,0x09,     /* [2132] OBJ_sbgp_routerIdentifier */
 0x2B,0x06,0x01,0x05,0x05,0x07,0x02,0x03,     /* [2140] OBJ_textNotice */
 0x2B,0x06,0x01,0x05,0x05,0x07,0x03,0x05,     /* [2148] OBJ_ipsecEndSystem */
 0x2B,0x06,0x01,0x05,0x05,0x07,0x03,0x06,     /* [2156] OBJ_ipsecTunnel */
@@ -685,6 +685,22 @@ static unsigned char lvalues[4455]={
 0x2A,0x86,0x48,0x86,0xF7,0x0D,0x01,0x01,0x06,/* [4425] OBJ_rsaOAEPEncryptionSET */
 0x2B,0x06,0x01,0x04,0x01,0x82,0x37,0x14,0x02,0x02,/* [4434] OBJ_ms_smartcard_login */
 0x2B,0x06,0x01,0x04,0x01,0x82,0x37,0x14,0x02,0x03,/* [4444] OBJ_ms_upn */
+0x55,0x04,0x09,                              /* [4454] OBJ_streetAddress */
+0x55,0x04,0x11,                              /* [4457] OBJ_postalCode */
+0x2B,0x06,0x01,0x05,0x05,0x07,0x15,          /* [4460] OBJ_id_ppl */
+0x2B,0x06,0x01,0x05,0x05,0x07,0x01,0x0E,     /* [4467] OBJ_proxyCertInfo */
+0x2B,0x06,0x01,0x05,0x05,0x07,0x15,0x00,     /* [4475] OBJ_id_ppl_anyLanguage */
+0x2B,0x06,0x01,0x05,0x05,0x07,0x15,0x01,     /* [4483] OBJ_id_ppl_inheritAll */
+0x55,0x1D,0x1E,                              /* [4491] OBJ_name_constraints */
+0x2B,0x06,0x01,0x05,0x05,0x07,0x15,0x02,     /* [4494] OBJ_Independent */
+0x2A,0x86,0x48,0x86,0xF7,0x0D,0x01,0x01,0x0B,/* [4502] OBJ_sha256WithRSAEncryption */
+0x2A,0x86,0x48,0x86,0xF7,0x0D,0x01,0x01,0x0C,/* [4511] OBJ_sha384WithRSAEncryption */
+0x2A,0x86,0x48,0x86,0xF7,0x0D,0x01,0x01,0x0D,/* [4520] OBJ_sha512WithRSAEncryption */
+0x2A,0x86,0x48,0x86,0xF7,0x0D,0x01,0x01,0x0E,/* [4529] OBJ_sha224WithRSAEncryption */
+0x60,0x86,0x48,0x01,0x65,0x03,0x04,0x02,0x01,/* [4538] OBJ_sha256 */
+0x60,0x86,0x48,0x01,0x65,0x03,0x04,0x02,0x02,/* [4547] OBJ_sha384 */
+0x60,0x86,0x48,0x01,0x65,0x03,0x04,0x02,0x03,/* [4556] OBJ_sha512 */
+0x60,0x86,0x48,0x01,0x65,0x03,0x04,0x02,0x04,/* [4565] OBJ_sha224 */
 };
 
 static ASN1_OBJECT nid_objs[NUM_NID]={
@@ -1127,12 +1143,12 @@ static ASN1_OBJECT nid_objs[NUM_NID]={
 	&(lvalues[2092]),0},
 {"ac-targeting","ac-targeting",NID_ac_targeting,8,&(lvalues[2100]),0},
 {"aaControls","aaControls",NID_aaControls,8,&(lvalues[2108]),0},
-{"sbqp-ipAddrBlock","sbqp-ipAddrBlock",NID_sbqp_ipAddrBlock,8,
+{"sbgp-ipAddrBlock","sbgp-ipAddrBlock",NID_sbgp_ipAddrBlock,8,
 	&(lvalues[2116]),0},
-{"sbqp-autonomousSysNum","sbqp-autonomousSysNum",
-	NID_sbqp_autonomousSysNum,8,&(lvalues[2124]),0},
-{"sbqp-routerIdentifier","sbqp-routerIdentifier",
-	NID_sbqp_routerIdentifier,8,&(lvalues[2132]),0},
+{"sbgp-autonomousSysNum","sbgp-autonomousSysNum",
+	NID_sbgp_autonomousSysNum,8,&(lvalues[2124]),0},
+{"sbgp-routerIdentifier","sbgp-routerIdentifier",
+	NID_sbgp_routerIdentifier,8,&(lvalues[2132]),0},
 {"textNotice","textNotice",NID_textNotice,8,&(lvalues[2140]),0},
 {"ipsecEndSystem","IPSec End System",NID_ipsecEndSystem,8,
 	&(lvalues[2148]),0},
@@ -1728,20 +1744,60 @@ static ASN1_OBJECT nid_objs[NUM_NID]={
 	10,&(lvalues[4434]),0},
 {"msUPN","Microsoft Universal Principal Name",NID_ms_upn,10,
 	&(lvalues[4444]),0},
+{"AES-128-CFB1","aes-128-cfb1",NID_aes_128_cfb1,0,NULL},
+{"AES-192-CFB1","aes-192-cfb1",NID_aes_192_cfb1,0,NULL},
+{"AES-256-CFB1","aes-256-cfb1",NID_aes_256_cfb1,0,NULL},
+{"AES-128-CFB8","aes-128-cfb8",NID_aes_128_cfb8,0,NULL},
+{"AES-192-CFB8","aes-192-cfb8",NID_aes_192_cfb8,0,NULL},
+{"AES-256-CFB8","aes-256-cfb8",NID_aes_256_cfb8,0,NULL},
+{"DES-CFB1","des-cfb1",NID_des_cfb1,0,NULL},
+{"DES-CFB8","des-cfb8",NID_des_cfb8,0,NULL},
+{"DES-EDE3-CFB1","des-ede3-cfb1",NID_des_ede3_cfb1,0,NULL},
+{"DES-EDE3-CFB8","des-ede3-cfb8",NID_des_ede3_cfb8,0,NULL},
+{"streetAddress","streetAddress",NID_streetAddress,3,&(lvalues[4454]),0},
+{"postalCode","postalCode",NID_postalCode,3,&(lvalues[4457]),0},
+{"id-ppl","id-ppl",NID_id_ppl,7,&(lvalues[4460]),0},
+{"proxyCertInfo","Proxy Certificate Information",NID_proxyCertInfo,8,
+	&(lvalues[4467]),0},
+{"id-ppl-anyLanguage","Any language",NID_id_ppl_anyLanguage,8,
+	&(lvalues[4475]),0},
+{"id-ppl-inheritAll","Inherit all",NID_id_ppl_inheritAll,8,
+	&(lvalues[4483]),0},
+{"nameConstraints","X509v3 Name Constraints",NID_name_constraints,3,
+	&(lvalues[4491]),0},
+{"id-ppl-independent","Independent",NID_Independent,8,&(lvalues[4494]),0},
+{"RSA-SHA256","sha256WithRSAEncryption",NID_sha256WithRSAEncryption,9,
+	&(lvalues[4502]),0},
+{"RSA-SHA384","sha384WithRSAEncryption",NID_sha384WithRSAEncryption,9,
+	&(lvalues[4511]),0},
+{"RSA-SHA512","sha512WithRSAEncryption",NID_sha512WithRSAEncryption,9,
+	&(lvalues[4520]),0},
+{"RSA-SHA224","sha224WithRSAEncryption",NID_sha224WithRSAEncryption,9,
+	&(lvalues[4529]),0},
+{"SHA256","sha256",NID_sha256,9,&(lvalues[4538]),0},
+{"SHA384","sha384",NID_sha384,9,&(lvalues[4547]),0},
+{"SHA512","sha512",NID_sha512,9,&(lvalues[4556]),0},
+{"SHA224","sha224",NID_sha224,9,&(lvalues[4565]),0},
 };
 
 static ASN1_OBJECT *sn_objs[NUM_SN]={
 &(nid_objs[364]),/* "AD_DVCS" */
 &(nid_objs[419]),/* "AES-128-CBC" */
 &(nid_objs[421]),/* "AES-128-CFB" */
+&(nid_objs[650]),/* "AES-128-CFB1" */
+&(nid_objs[653]),/* "AES-128-CFB8" */
 &(nid_objs[418]),/* "AES-128-ECB" */
 &(nid_objs[420]),/* "AES-128-OFB" */
 &(nid_objs[423]),/* "AES-192-CBC" */
 &(nid_objs[425]),/* "AES-192-CFB" */
+&(nid_objs[651]),/* "AES-192-CFB1" */
+&(nid_objs[654]),/* "AES-192-CFB8" */
 &(nid_objs[422]),/* "AES-192-ECB" */
 &(nid_objs[424]),/* "AES-192-OFB" */
 &(nid_objs[427]),/* "AES-256-CBC" */
 &(nid_objs[429]),/* "AES-256-CFB" */
+&(nid_objs[652]),/* "AES-256-CFB1" */
+&(nid_objs[655]),/* "AES-256-CFB8" */
 &(nid_objs[426]),/* "AES-256-ECB" */
 &(nid_objs[428]),/* "AES-256-OFB" */
 &(nid_objs[91]),/* "BF-CBC" */
@@ -1762,6 +1818,8 @@ static ASN1_OBJECT *sn_objs[NUM_SN]={
 &(nid_objs[31]),/* "DES-CBC" */
 &(nid_objs[643]),/* "DES-CDMF" */
 &(nid_objs[30]),/* "DES-CFB" */
+&(nid_objs[656]),/* "DES-CFB1" */
+&(nid_objs[657]),/* "DES-CFB8" */
 &(nid_objs[29]),/* "DES-ECB" */
 &(nid_objs[32]),/* "DES-EDE" */
 &(nid_objs[43]),/* "DES-EDE-CBC" */
@@ -1770,6 +1828,8 @@ static ASN1_OBJECT *sn_objs[NUM_SN]={
 &(nid_objs[33]),/* "DES-EDE3" */
 &(nid_objs[44]),/* "DES-EDE3-CBC" */
 &(nid_objs[61]),/* "DES-EDE3-CFB" */
+&(nid_objs[658]),/* "DES-EDE3-CFB1" */
+&(nid_objs[659]),/* "DES-EDE3-CFB8" */
 &(nid_objs[63]),/* "DES-EDE3-OFB" */
 &(nid_objs[45]),/* "DES-OFB" */
 &(nid_objs[80]),/* "DESX-CBC" */
@@ -1843,8 +1903,16 @@ static ASN1_OBJECT *sn_objs[NUM_SN]={
 &(nid_objs[42]),/* "RSA-SHA" */
 &(nid_objs[65]),/* "RSA-SHA1" */
 &(nid_objs[115]),/* "RSA-SHA1-2" */
+&(nid_objs[671]),/* "RSA-SHA224" */
+&(nid_objs[668]),/* "RSA-SHA256" */
+&(nid_objs[669]),/* "RSA-SHA384" */
+&(nid_objs[670]),/* "RSA-SHA512" */
 &(nid_objs[41]),/* "SHA" */
 &(nid_objs[64]),/* "SHA1" */
+&(nid_objs[675]),/* "SHA224" */
+&(nid_objs[672]),/* "SHA256" */
+&(nid_objs[673]),/* "SHA384" */
+&(nid_objs[674]),/* "SHA512" */
 &(nid_objs[188]),/* "SMIME" */
 &(nid_objs[167]),/* "SMIME-CAPS" */
 &(nid_objs[100]),/* "SN" */
@@ -2022,6 +2090,10 @@ static ASN1_OBJECT *sn_objs[NUM_SN]={
 &(nid_objs[271]),/* "id-pkix1-explicit-93" */
 &(nid_objs[270]),/* "id-pkix1-implicit-88" */
 &(nid_objs[272]),/* "id-pkix1-implicit-93" */
+&(nid_objs[662]),/* "id-ppl" */
+&(nid_objs[664]),/* "id-ppl-anyLanguage" */
+&(nid_objs[667]),/* "id-ppl-independent" */
+&(nid_objs[665]),/* "id-ppl-inheritAll" */
 &(nid_objs[267]),/* "id-qcs" */
 &(nid_objs[359]),/* "id-qcs-pkixQCSyntax-v1" */
 &(nid_objs[259]),/* "id-qt" */
@@ -2140,6 +2212,7 @@ static ASN1_OBJECT *sn_objs[NUM_SN]={
 &(nid_objs[649]),/* "msUPN" */
 &(nid_objs[481]),/* "nSRecord" */
 &(nid_objs[173]),/* "name" */
+&(nid_objs[666]),/* "nameConstraints" */
 &(nid_objs[369]),/* "noCheck" */
 &(nid_objs[403]),/* "noRevAvail" */
 &(nid_objs[72]),/* "nsBaseUrl" */
@@ -2186,6 +2259,7 @@ static ASN1_OBJECT *sn_objs[NUM_SN]={
 &(nid_objs[151]),/* "pkcs8ShroudedKeyBag" */
 &(nid_objs[47]),/* "pkcs9" */
 &(nid_objs[401]),/* "policyConstraints" */
+&(nid_objs[661]),/* "postalCode" */
 &(nid_objs[406]),/* "prime-field" */
 &(nid_objs[409]),/* "prime192v1" */
 &(nid_objs[410]),/* "prime192v2" */
@@ -2196,6 +2270,7 @@ static ASN1_OBJECT *sn_objs[NUM_SN]={
 &(nid_objs[415]),/* "prime256v1" */
 &(nid_objs[385]),/* "private" */
 &(nid_objs[84]),/* "privateKeyUsagePeriod" */
+&(nid_objs[663]),/* "proxyCertInfo" */
 &(nid_objs[510]),/* "pseudonym" */
 &(nid_objs[435]),/* "pss" */
 &(nid_objs[286]),/* "qcStatements" */
@@ -2210,9 +2285,9 @@ static ASN1_OBJECT *sn_objs[NUM_SN]={
 &(nid_objs[ 1]),/* "rsadsi" */
 &(nid_objs[482]),/* "sOARecord" */
 &(nid_objs[155]),/* "safeContentsBag" */
-&(nid_objs[291]),/* "sbqp-autonomousSysNum" */
-&(nid_objs[290]),/* "sbqp-ipAddrBlock" */
-&(nid_objs[292]),/* "sbqp-routerIdentifier" */
+&(nid_objs[291]),/* "sbgp-autonomousSysNum" */
+&(nid_objs[290]),/* "sbgp-ipAddrBlock" */
+&(nid_objs[292]),/* "sbgp-routerIdentifier" */
 &(nid_objs[159]),/* "sdsiCertificate" */
 &(nid_objs[154]),/* "secretBag" */
 &(nid_objs[474]),/* "secretary" */
@@ -2355,6 +2430,7 @@ static ASN1_OBJECT *sn_objs[NUM_SN]={
 &(nid_objs[454]),/* "simpleSecurityObject" */
 &(nid_objs[496]),/* "singleLevelQuality" */
 &(nid_objs[387]),/* "snmpv2" */
+&(nid_objs[660]),/* "streetAddress" */
 &(nid_objs[85]),/* "subjectAltName" */
 &(nid_objs[398]),/* "subjectInfoAccess" */
 &(nid_objs[82]),/* "subjectKeyIdentifier" */
@@ -2380,6 +2456,7 @@ static ASN1_OBJECT *ln_objs[NUM_LN]={
 &(nid_objs[363]),/* "AD Time Stamping" */
 &(nid_objs[405]),/* "ANSI X9.62" */
 &(nid_objs[368]),/* "Acceptable OCSP Responses" */
+&(nid_objs[664]),/* "Any language" */
 &(nid_objs[177]),/* "Authority Information Access" */
 &(nid_objs[365]),/* "Basic OCSP Response" */
 &(nid_objs[285]),/* "Biometric Info" */
@@ -2402,6 +2479,8 @@ static ASN1_OBJECT *ln_objs[NUM_LN]={
 &(nid_objs[296]),/* "IPSec User" */
 &(nid_objs[182]),/* "ISO Member Body" */
 &(nid_objs[183]),/* "ISO US Member Body" */
+&(nid_objs[667]),/* "Independent" */
+&(nid_objs[665]),/* "Inherit all" */
 &(nid_objs[142]),/* "Invalidity Date" */
 &(nid_objs[504]),/* "MIME MHS" */
 &(nid_objs[388]),/* "Mail" */
@@ -2442,6 +2521,7 @@ static ASN1_OBJECT *ln_objs[NUM_LN]={
 &(nid_objs[164]),/* "Policy Qualifier CPS" */
 &(nid_objs[165]),/* "Policy Qualifier User Notice" */
 &(nid_objs[385]),/* "Private" */
+&(nid_objs[663]),/* "Proxy Certificate Information" */
 &(nid_objs[ 1]),/* "RSA Data Security, Inc." */
 &(nid_objs[ 2]),/* "RSA Data Security, Inc. PKCS" */
 &(nid_objs[188]),/* "S/MIME" */
@@ -2468,6 +2548,7 @@ static ASN1_OBJECT *ln_objs[NUM_LN]={
 &(nid_objs[126]),/* "X509v3 Extended Key Usage" */
 &(nid_objs[86]),/* "X509v3 Issuer Alternative Name" */
 &(nid_objs[83]),/* "X509v3 Key Usage" */
+&(nid_objs[666]),/* "X509v3 Name Constraints" */
 &(nid_objs[403]),/* "X509v3 No Revocation Available" */
 &(nid_objs[401]),/* "X509v3 Policy Constraints" */
 &(nid_objs[84]),/* "X509v3 Private Key Usage Period" */
@@ -2485,14 +2566,20 @@ static ASN1_OBJECT *ln_objs[NUM_LN]={
 &(nid_objs[606]),/* "additional verification" */
 &(nid_objs[419]),/* "aes-128-cbc" */
 &(nid_objs[421]),/* "aes-128-cfb" */
+&(nid_objs[650]),/* "aes-128-cfb1" */
+&(nid_objs[653]),/* "aes-128-cfb8" */
 &(nid_objs[418]),/* "aes-128-ecb" */
 &(nid_objs[420]),/* "aes-128-ofb" */
 &(nid_objs[423]),/* "aes-192-cbc" */
 &(nid_objs[425]),/* "aes-192-cfb" */
+&(nid_objs[651]),/* "aes-192-cfb1" */
+&(nid_objs[654]),/* "aes-192-cfb8" */
 &(nid_objs[422]),/* "aes-192-ecb" */
 &(nid_objs[424]),/* "aes-192-ofb" */
 &(nid_objs[427]),/* "aes-256-cbc" */
 &(nid_objs[429]),/* "aes-256-cfb" */
+&(nid_objs[652]),/* "aes-256-cfb1" */
+&(nid_objs[655]),/* "aes-256-cfb8" */
 &(nid_objs[426]),/* "aes-256-ecb" */
 &(nid_objs[428]),/* "aes-256-ofb" */
 &(nid_objs[376]),/* "algorithm" */
@@ -2531,6 +2618,8 @@ static ASN1_OBJECT *ln_objs[NUM_LN]={
 &(nid_objs[31]),/* "des-cbc" */
 &(nid_objs[643]),/* "des-cdmf" */
 &(nid_objs[30]),/* "des-cfb" */
+&(nid_objs[656]),/* "des-cfb1" */
+&(nid_objs[657]),/* "des-cfb8" */
 &(nid_objs[29]),/* "des-ecb" */
 &(nid_objs[32]),/* "des-ede" */
 &(nid_objs[43]),/* "des-ede-cbc" */
@@ -2539,6 +2628,8 @@ static ASN1_OBJECT *ln_objs[NUM_LN]={
 &(nid_objs[33]),/* "des-ede3" */
 &(nid_objs[44]),/* "des-ede3-cbc" */
 &(nid_objs[61]),/* "des-ede3-cfb" */
+&(nid_objs[658]),/* "des-ede3-cfb1" */
+&(nid_objs[659]),/* "des-ede3-cfb8" */
 &(nid_objs[63]),/* "des-ede3-ofb" */
 &(nid_objs[45]),/* "des-ofb" */
 &(nid_objs[107]),/* "description" */
@@ -2668,6 +2759,7 @@ static ASN1_OBJECT *ln_objs[NUM_LN]={
 &(nid_objs[271]),/* "id-pkix1-explicit-93" */
 &(nid_objs[270]),/* "id-pkix1-implicit-88" */
 &(nid_objs[272]),/* "id-pkix1-implicit-93" */
+&(nid_objs[662]),/* "id-ppl" */
 &(nid_objs[267]),/* "id-qcs" */
 &(nid_objs[359]),/* "id-qcs-pkixQCSyntax-v1" */
 &(nid_objs[259]),/* "id-qt" */
@@ -2831,6 +2923,7 @@ static ASN1_OBJECT *ln_objs[NUM_LN]={
 &(nid_objs[22]),/* "pkcs7-signedData" */
 &(nid_objs[151]),/* "pkcs8ShroudedKeyBag" */
 &(nid_objs[47]),/* "pkcs9" */
+&(nid_objs[661]),/* "postalCode" */
 &(nid_objs[406]),/* "prime-field" */
 &(nid_objs[409]),/* "prime192v1" */
 &(nid_objs[410]),/* "prime192v2" */
@@ -2869,9 +2962,9 @@ static ASN1_OBJECT *ln_objs[NUM_LN]={
 &(nid_objs[124]),/* "run length compression" */
 &(nid_objs[482]),/* "sOARecord" */
 &(nid_objs[155]),/* "safeContentsBag" */
-&(nid_objs[291]),/* "sbqp-autonomousSysNum" */
-&(nid_objs[290]),/* "sbqp-ipAddrBlock" */
-&(nid_objs[292]),/* "sbqp-routerIdentifier" */
+&(nid_objs[291]),/* "sbgp-autonomousSysNum" */
+&(nid_objs[290]),/* "sbgp-ipAddrBlock" */
+&(nid_objs[292]),/* "sbgp-routerIdentifier" */
 &(nid_objs[159]),/* "sdsiCertificate" */
 &(nid_objs[154]),/* "secretBag" */
 &(nid_objs[474]),/* "secretary" */
@@ -2998,11 +3091,20 @@ static ASN1_OBJECT *ln_objs[NUM_LN]={
 &(nid_objs[64]),/* "sha1" */
 &(nid_objs[115]),/* "sha1WithRSA" */
 &(nid_objs[65]),/* "sha1WithRSAEncryption" */
+&(nid_objs[675]),/* "sha224" */
+&(nid_objs[671]),/* "sha224WithRSAEncryption" */
+&(nid_objs[672]),/* "sha256" */
+&(nid_objs[668]),/* "sha256WithRSAEncryption" */
+&(nid_objs[673]),/* "sha384" */
+&(nid_objs[669]),/* "sha384WithRSAEncryption" */
+&(nid_objs[674]),/* "sha512" */
+&(nid_objs[670]),/* "sha512WithRSAEncryption" */
 &(nid_objs[42]),/* "shaWithRSAEncryption" */
 &(nid_objs[52]),/* "signingTime" */
 &(nid_objs[454]),/* "simpleSecurityObject" */
 &(nid_objs[496]),/* "singleLevelQuality" */
 &(nid_objs[16]),/* "stateOrProvinceName" */
+&(nid_objs[660]),/* "streetAddress" */
 &(nid_objs[498]),/* "subtreeMaximumQuality" */
 &(nid_objs[497]),/* "subtreeMinimumQuality" */
 &(nid_objs[100]),/* "surname" */
@@ -3046,10 +3148,12 @@ static ASN1_OBJECT *obj_objs[NUM_OBJ]={
 &(nid_objs[14]),/* OBJ_countryName                  2 5 4 6 */
 &(nid_objs[15]),/* OBJ_localityName                 2 5 4 7 */
 &(nid_objs[16]),/* OBJ_stateOrProvinceName          2 5 4 8 */
+&(nid_objs[660]),/* OBJ_streetAddress                2 5 4 9 */
 &(nid_objs[17]),/* OBJ_organizationName             2 5 4 10 */
 &(nid_objs[18]),/* OBJ_organizationalUnitName       2 5 4 11 */
 &(nid_objs[106]),/* OBJ_title                        2 5 4 12 */
 &(nid_objs[107]),/* OBJ_description                  2 5 4 13 */
+&(nid_objs[661]),/* OBJ_postalCode                   2 5 4 17 */
 &(nid_objs[173]),/* OBJ_name                         2 5 4 41 */
 &(nid_objs[99]),/* OBJ_givenName                    2 5 4 42 */
 &(nid_objs[101]),/* OBJ_initials                     2 5 4 43 */
@@ -3069,6 +3173,7 @@ static ASN1_OBJECT *obj_objs[NUM_OBJ]={
 &(nid_objs[430]),/* OBJ_hold_instruction_code        2 5 29 23 */
 &(nid_objs[142]),/* OBJ_invalidity_date              2 5 29 24 */
 &(nid_objs[140]),/* OBJ_delta_crl                    2 5 29 27 */
+&(nid_objs[666]),/* OBJ_name_constraints             2 5 29 30 */
 &(nid_objs[103]),/* OBJ_crl_distribution_points      2 5 29 31 */
 &(nid_objs[89]),/* OBJ_certificate_policies         2 5 29 32 */
 &(nid_objs[90]),/* OBJ_authority_key_identifier     2 5 29 35 */
@@ -3270,6 +3375,7 @@ static ASN1_OBJECT *obj_objs[NUM_OBJ]={
 &(nid_objs[266]),/* OBJ_id_aca                       1 3 6 1 5 5 7 10 */
 &(nid_objs[267]),/* OBJ_id_qcs                       1 3 6 1 5 5 7 11 */
 &(nid_objs[268]),/* OBJ_id_cct                       1 3 6 1 5 5 7 12 */
+&(nid_objs[662]),/* OBJ_id_ppl                       1 3 6 1 5 5 7 21 */
 &(nid_objs[176]),/* OBJ_id_ad                        1 3 6 1 5 5 7 48 */
 &(nid_objs[507]),/* OBJ_id_hex_partial_message       1 3 6 1 7 1 1 1 */
 &(nid_objs[508]),/* OBJ_id_hex_multipart_message     1 3 6 1 7 1 1 2 */
@@ -3318,11 +3424,12 @@ static ASN1_OBJECT *obj_objs[NUM_OBJ]={
 &(nid_objs[287]),/* OBJ_ac_auditEntity               1 3 6 1 5 5 7 1 4 */
 &(nid_objs[288]),/* OBJ_ac_targeting                 1 3 6 1 5 5 7 1 5 */
 &(nid_objs[289]),/* OBJ_aaControls                   1 3 6 1 5 5 7 1 6 */
-&(nid_objs[290]),/* OBJ_sbqp_ipAddrBlock             1 3 6 1 5 5 7 1 7 */
-&(nid_objs[291]),/* OBJ_sbqp_autonomousSysNum        1 3 6 1 5 5 7 1 8 */
-&(nid_objs[292]),/* OBJ_sbqp_routerIdentifier        1 3 6 1 5 5 7 1 9 */
+&(nid_objs[290]),/* OBJ_sbgp_ipAddrBlock             1 3 6 1 5 5 7 1 7 */
+&(nid_objs[291]),/* OBJ_sbgp_autonomousSysNum        1 3 6 1 5 5 7 1 8 */
+&(nid_objs[292]),/* OBJ_sbgp_routerIdentifier        1 3 6 1 5 5 7 1 9 */
 &(nid_objs[397]),/* OBJ_ac_proxying                  1 3 6 1 5 5 7 1 10 */
 &(nid_objs[398]),/* OBJ_sinfo_access                 1 3 6 1 5 5 7 1 11 */
+&(nid_objs[663]),/* OBJ_proxyCertInfo                1 3 6 1 5 5 7 1 14 */
 &(nid_objs[164]),/* OBJ_id_qt_cps                    1 3 6 1 5 5 7 2 1 */
 &(nid_objs[165]),/* OBJ_id_qt_unotice                1 3 6 1 5 5 7 2 2 */
 &(nid_objs[293]),/* OBJ_textNotice                   1 3 6 1 5 5 7 2 3 */
@@ -3393,6 +3500,9 @@ static ASN1_OBJECT *obj_objs[NUM_OBJ]={
 &(nid_objs[360]),/* OBJ_id_cct_crs                   1 3 6 1 5 5 7 12 1 */
 &(nid_objs[361]),/* OBJ_id_cct_PKIData               1 3 6 1 5 5 7 12 2 */
 &(nid_objs[362]),/* OBJ_id_cct_PKIResponse           1 3 6 1 5 5 7 12 3 */
+&(nid_objs[664]),/* OBJ_id_ppl_anyLanguage           1 3 6 1 5 5 7 21 0 */
+&(nid_objs[665]),/* OBJ_id_ppl_inheritAll            1 3 6 1 5 5 7 21 1 */
+&(nid_objs[667]),/* OBJ_Independent                  1 3 6 1 5 5 7 21 2 */
 &(nid_objs[178]),/* OBJ_ad_OCSP                      1 3 6 1 5 5 7 48 1 */
 &(nid_objs[179]),/* OBJ_ad_ca_issuers                1 3 6 1 5 5 7 48 2 */
 &(nid_objs[363]),/* OBJ_ad_timeStamping              1 3 6 1 5 5 7 48 3 */
@@ -3411,6 +3521,10 @@ static ASN1_OBJECT *obj_objs[NUM_OBJ]={
 &(nid_objs[ 8]),/* OBJ_md5WithRSAEncryption         1 2 840 113549 1 1 4 */
 &(nid_objs[65]),/* OBJ_sha1WithRSAEncryption        1 2 840 113549 1 1 5 */
 &(nid_objs[644]),/* OBJ_rsaOAEPEncryptionSET         1 2 840 113549 1 1 6 */
+&(nid_objs[668]),/* OBJ_sha256WithRSAEncryption      1 2 840 113549 1 1 11 */
+&(nid_objs[669]),/* OBJ_sha384WithRSAEncryption      1 2 840 113549 1 1 12 */
+&(nid_objs[670]),/* OBJ_sha512WithRSAEncryption      1 2 840 113549 1 1 13 */
+&(nid_objs[671]),/* OBJ_sha224WithRSAEncryption      1 2 840 113549 1 1 14 */
 &(nid_objs[28]),/* OBJ_dhKeyAgreement               1 2 840 113549 1 3 1 */
 &(nid_objs[ 9]),/* OBJ_pbeWithMD2AndDES_CBC         1 2 840 113549 1 5 1 */
 &(nid_objs[10]),/* OBJ_pbeWithMD5AndDES_CBC         1 2 840 113549 1 5 3 */
@@ -3475,6 +3589,10 @@ static ASN1_OBJECT *obj_objs[NUM_OBJ]={
 &(nid_objs[427]),/* OBJ_aes_256_cbc                  2 16 840 1 101 3 4 1 42 */
 &(nid_objs[428]),/* OBJ_aes_256_ofb128               2 16 840 1 101 3 4 1 43 */
 &(nid_objs[429]),/* OBJ_aes_256_cfb128               2 16 840 1 101 3 4 1 44 */
+&(nid_objs[672]),/* OBJ_sha256                       2 16 840 1 101 3 4 2 1 */
+&(nid_objs[673]),/* OBJ_sha384                       2 16 840 1 101 3 4 2 2 */
+&(nid_objs[674]),/* OBJ_sha512                       2 16 840 1 101 3 4 2 3 */
+&(nid_objs[675]),/* OBJ_sha224                       2 16 840 1 101 3 4 2 4 */
 &(nid_objs[71]),/* OBJ_netscape_cert_type           2 16 840 1 113730 1 1 */
 &(nid_objs[72]),/* OBJ_netscape_base_url            2 16 840 1 113730 1 2 */
 &(nid_objs[73]),/* OBJ_netscape_revocation_url      2 16 840 1 113730 1 3 */

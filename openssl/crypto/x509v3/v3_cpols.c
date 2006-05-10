@@ -73,7 +73,7 @@ static POLICYINFO *policy_section(X509V3_CTX *ctx,
 				 STACK_OF(CONF_VALUE) *polstrs, int ia5org);
 static POLICYQUALINFO *notice_section(X509V3_CTX *ctx,
 					STACK_OF(CONF_VALUE) *unot, int ia5org);
-static STACK_OF(ASN1_INTEGER) *nref_nos(STACK_OF(CONF_VALUE) *nos);
+static int nref_nos(STACK_OF(ASN1_INTEGER) *nnums, STACK_OF(CONF_VALUE) *nos);
 
 X509V3_EXT_METHOD v3_cpols = {
 NID_certificate_policies, 0,ASN1_ITEM_ref(CERTIFICATEPOLICIES),
@@ -137,7 +137,15 @@ static STACK_OF(POLICYINFO) *r2i_certpol(X509V3_EXT_METHOD *method,
 	CONF_VALUE *cnf;
 	int i, ia5org;
 	pols = sk_POLICYINFO_new_null();
+	if (pols == NULL) {
+		X509V3err(X509V3_F_R2I_CERTPOL, ERR_R_MALLOC_FAILURE);
+		return NULL;
+	}
 	vals =  X509V3_parse_list(value);
+	if (vals == NULL) {
+		X509V3err(X509V3_F_R2I_CERTPOL, ERR_R_X509V3_LIB);
+		goto err;
+	}
 	ia5org = 0;
 	for(i = 0; i < sk_CONF_VALUE_num(vals); i++) {
 		cnf = sk_CONF_VALUE_value(vals, i);
@@ -176,6 +184,7 @@ static STACK_OF(POLICYINFO) *r2i_certpol(X509V3_EXT_METHOD *method,
 	sk_CONF_VALUE_pop_free(vals, X509V3_conf_free);
 	return pols;
 	err:
+	sk_CONF_VALUE_pop_free(vals, X509V3_conf_free);
 	sk_POLICYINFO_pop_free(pols, POLICYINFO_free);
 	return NULL;
 }
@@ -226,6 +235,8 @@ static POLICYINFO *policy_section(X509V3_CTX *ctx,
 			qual = notice_section(ctx, unot, ia5org);
 			X509V3_section_free(ctx, unot);
 			if(!qual) goto err;
+			if(!pol->qualifiers) pol->qualifiers =
+						 sk_POLICYQUALINFO_new_null();
 			if(!sk_POLICYQUALINFO_push(pol->qualifiers, qual))
 								 goto merr;
 		} else {
@@ -255,7 +266,7 @@ static POLICYINFO *policy_section(X509V3_CTX *ctx,
 static POLICYQUALINFO *notice_section(X509V3_CTX *ctx,
 					STACK_OF(CONF_VALUE) *unot, int ia5org)
 {
-	int i;
+	int i, ret;
 	CONF_VALUE *cnf;
 	USERNOTICE *not;
 	POLICYQUALINFO *qual;
@@ -275,8 +286,8 @@ static POLICYQUALINFO *notice_section(X509V3_CTX *ctx,
 				if(!(nref = NOTICEREF_new())) goto merr;
 				not->noticeref = nref;
 			} else nref = not->noticeref;
-			if(ia5org) nref->organization = M_ASN1_IA5STRING_new();
-			else nref->organization = M_ASN1_VISIBLESTRING_new();
+			if(ia5org) nref->organization->type = V_ASN1_IA5STRING;
+			else nref->organization->type = V_ASN1_VISIBLESTRING;
 			if(!ASN1_STRING_set(nref->organization, cnf->value,
 						 strlen(cnf->value))) goto merr;
 		} else if(!strcmp(cnf->name, "noticeNumbers")) {
@@ -292,12 +303,12 @@ static POLICYQUALINFO *notice_section(X509V3_CTX *ctx,
 				X509V3_conf_err(cnf);
 				goto err;
 			}
-			nref->noticenos = nref_nos(nos);
+			ret = nref_nos(nref->noticenos, nos);
 			sk_CONF_VALUE_pop_free(nos, X509V3_conf_free);
-			if(!nref->noticenos) goto err;
+			if (!ret)
+				goto err;
 		} else {
 			X509V3err(X509V3_F_NOTICE_SECTION,X509V3_R_INVALID_OPTION);
-
 			X509V3_conf_err(cnf);
 			goto err;
 		}
@@ -319,15 +330,13 @@ static POLICYQUALINFO *notice_section(X509V3_CTX *ctx,
 	return NULL;
 }
 
-static STACK_OF(ASN1_INTEGER) *nref_nos(STACK_OF(CONF_VALUE) *nos)
+static int nref_nos(STACK_OF(ASN1_INTEGER) *nnums, STACK_OF(CONF_VALUE) *nos)
 {
-	STACK_OF(ASN1_INTEGER) *nnums;
 	CONF_VALUE *cnf;
 	ASN1_INTEGER *aint;
 
 	int i;
 
-	if(!(nnums = sk_ASN1_INTEGER_new_null())) goto merr;
 	for(i = 0; i < sk_CONF_VALUE_num(nos); i++) {
 		cnf = sk_CONF_VALUE_value(nos, i);
 		if(!(aint = s2i_ASN1_INTEGER(NULL, cnf->name))) {
@@ -336,14 +345,14 @@ static STACK_OF(ASN1_INTEGER) *nref_nos(STACK_OF(CONF_VALUE) *nos)
 		}
 		if(!sk_ASN1_INTEGER_push(nnums, aint)) goto merr;
 	}
-	return nnums;
+	return 1;
 
 	merr:
 	X509V3err(X509V3_F_NOTICE_SECTION,ERR_R_MALLOC_FAILURE);
 
 	err:
 	sk_ASN1_INTEGER_pop_free(nnums, ASN1_STRING_free);
-	return NULL;
+	return 0;
 }
 
 

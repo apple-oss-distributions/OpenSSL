@@ -35,6 +35,7 @@ extern int pkcs8_main(int argc,char *argv[]);
 extern int spkac_main(int argc,char *argv[]);
 extern int smime_main(int argc,char *argv[]);
 extern int rand_main(int argc,char *argv[]);
+extern int prime_main(int argc,char *argv[]);
 #ifndef OPENSSL_NO_ENGINE
 extern int engine_main(int argc,char *argv[]);
 #endif
@@ -115,6 +116,7 @@ FUNCTION functions[] = {
 	{FUNC_TYPE_GENERAL,"spkac",spkac_main},
 	{FUNC_TYPE_GENERAL,"smime",smime_main},
 	{FUNC_TYPE_GENERAL,"rand",rand_main},
+	{FUNC_TYPE_GENERAL,"prime",prime_main},
 #ifndef OPENSSL_NO_ENGINE
 	{FUNC_TYPE_GENERAL,"engine",engine_main},
 #endif
@@ -167,9 +169,6 @@ FUNCTION functions[] = {
 #endif
 #ifndef OPENSSL_NO_DES
 	{FUNC_TYPE_CIPHER,"desx",enc_main},
-#endif
-#ifndef OPENSSL_NO_IDEA
-	{FUNC_TYPE_CIPHER,"idea",enc_main},
 #endif
 #ifndef OPENSSL_NO_RC4
 	{FUNC_TYPE_CIPHER,"rc4",enc_main},
@@ -224,18 +223,6 @@ FUNCTION functions[] = {
 #endif
 #ifndef OPENSSL_NO_DES
 	{FUNC_TYPE_CIPHER,"des-ede3-ofb",enc_main},
-#endif
-#ifndef OPENSSL_NO_IDEA
-	{FUNC_TYPE_CIPHER,"idea-cbc",enc_main},
-#endif
-#ifndef OPENSSL_NO_IDEA
-	{FUNC_TYPE_CIPHER,"idea-ecb",enc_main},
-#endif
-#ifndef OPENSSL_NO_IDEA
-	{FUNC_TYPE_CIPHER,"idea-cfb",enc_main},
-#endif
-#ifndef OPENSSL_NO_IDEA
-	{FUNC_TYPE_CIPHER,"idea-ofb",enc_main},
 #endif
 #ifndef OPENSSL_NO_RC2
 	{FUNC_TYPE_CIPHER,"rc2-cbc",enc_main},

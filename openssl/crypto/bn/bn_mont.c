@@ -273,7 +273,7 @@ int BN_MONT_CTX_set(BN_MONT_CTX *mont, const BIGNUM *mod, BN_CTX *ctx)
 
 	BN_init(&Ri);
 	R= &(mont->RR);					/* grab RR as a temp */
-	BN_copy(&(mont->N),mod);			/* Set N */
+	if (!BN_copy(&(mont->N),mod)) goto err;		/* Set N */
 	mont->N.neg = 0;
 
 #ifdef MONT_WORD
@@ -346,4 +346,24 @@ BN_MONT_CTX *BN_MONT_CTX_copy(BN_MONT_CTX *to, BN_MONT_CTX *from)
 	to->n0=from->n0;
 	return(to);
 	}
+
+BN_MONT_CTX *BN_MONT_CTX_set_locked(BN_MONT_CTX **pmont, int lock,
+					const BIGNUM *mod, BN_CTX *ctx)
+	{
+	if (*pmont)
+		return *pmont;
+	CRYPTO_w_lock(lock);
+	if (!*pmont)
+		{
+		*pmont = BN_MONT_CTX_new();
+		if (*pmont && !BN_MONT_CTX_set(*pmont, mod, ctx))
+			{
+			BN_MONT_CTX_free(*pmont);
+			*pmont = NULL;
+			}
+		}
+	CRYPTO_w_unlock(lock);
+	return *pmont;
+	}
+		
 

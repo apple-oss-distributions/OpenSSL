@@ -3,6 +3,7 @@
 #include <string.h>
 #include <openssl/objects.h>
 #include <openssl/comp.h>
+#include <openssl/err.h>
 
 COMP_METHOD *COMP_zlib(void );
 
@@ -52,7 +53,9 @@ static COMP_METHOD zlib_method={
 # include <windows.h>
 
 # define Z_CALLCONV _stdcall
-# define ZLIB_SHARED
+# ifndef ZLIB_SHARED
+#  define ZLIB_SHARED
+# endif
 #else
 # define Z_CALLCONV
 #endif /* !(OPENSSL_SYS_WINDOWS || OPENSSL_SYS_WIN32) */
@@ -189,7 +192,17 @@ COMP_METHOD *COMP_zlib(void)
 	if (!zlib_loaded)
 		{
 #if defined(OPENSSL_SYS_WINDOWS) || defined(OPENSSL_SYS_WIN32)
-		zlib_dso = DSO_load(NULL, "ZLIB", NULL, 0);
+		zlib_dso = DSO_load(NULL, "ZLIB1", NULL, 0);
+		if (!zlib_dso)
+			{
+			zlib_dso = DSO_load(NULL, "ZLIB", NULL, 0);
+			if (zlib_dso)
+				{
+				/* Clear the errors from the first failed
+				   DSO_load() */
+				ERR_clear_error();
+				}
+			}
 #else
 		zlib_dso = DSO_load(NULL, "z", NULL, 0);
 #endif

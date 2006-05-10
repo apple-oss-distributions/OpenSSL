@@ -12,6 +12,7 @@ $rm='del';
 # C compiler stuff
 $cc='cl';
 $cflags=' /MD /W3 /WX /G5 /Ox /O2 /Ob2 /Gs0 /GF /Gy /nologo -DOPENSSL_SYSNAME_WIN32 -DWIN32_LEAN_AND_MEAN -DL_ENDIAN -DDSO_WIN32';
+$cflags.=' -D_CRT_SECURE_NO_DEPRECATE';	# shut up VC8
 $lflags="/nologo /subsystem:console /machine:I386 /opt:ref";
 $mlflags='';
 
@@ -64,7 +65,7 @@ $des_enc_src='';
 $bf_enc_obj='';
 $bf_enc_src='';
 
-if (!$no_asm)
+if (!$no_asm && !$fips)
 	{
 	$bn_asm_obj='crypto\bn\asm\bn_win32.obj';
 	$bn_asm_src='crypto\bn\asm\bn_win32.asm';
@@ -117,7 +118,7 @@ sub do_lib_rule
 	else
 		{
 		local($ex)=($target =~ /O_SSL/)?' $(L_CRYPTO)':'';
-		$ex.=' wsock32.lib gdi32.lib advapi32.lib';
+		$ex.=' wsock32.lib gdi32.lib advapi32.lib user32.lib';
 		$ret.="\t\$(LINK) \$(MLFLAGS) $efile$target /def:ms/${Name}.def @<<\n  \$(SHLIB_EX_OBJ) $objs $ex\n<<\n";
 		}
 	$ret.="\n";
@@ -126,14 +127,19 @@ sub do_lib_rule
 
 sub do_link_rule
 	{
-	local($target,$files,$dep_libs,$libs)=@_;
+	local($target,$files,$dep_libs,$libs,$sha1file,$openssl)=@_;
 	local($ret,$_);
 	
 	$file =~ s/\//$o/g if $o ne '/';
 	$n=&bname($targer);
 	$ret.="$target: $files $dep_libs\n";
 	$ret.="  \$(LINK) \$(LFLAGS) $efile$target @<<\n";
-	$ret.="  \$(APP_EX_OBJ) $files $libs\n<<\n\n";
+	$ret.="  \$(APP_EX_OBJ) $files $libs\n<<\n";
+	if (defined $sha1file)
+		{
+		$ret.="  $openssl sha1 -hmac etaonrishdlcupfm -binary $target > $sha1file";
+		}
+	$ret.="\n";
 	return($ret);
 	}
 
